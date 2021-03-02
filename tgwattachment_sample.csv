@@ -1,10 +1,5 @@
+Maximum metrics for the past 720 hour(s) with 3600 second(s) interval
 Attachment ID,TransitGateway ID,Resource Type,Resource ID,BytesIn,BytesOut,PacketsIn (Count),PacketsOut (Count),PacketDropCountBlackhole (Count),PacketDropCountNoRoute (Count)
-tgw-1bd1f8b3-8cef-4965-b2fd-e7029d0c0636-vpc-0051e8c97ac896974,tgw-01ccbf16de70f1c91,vpc,vpc-xxxxxxxxxxxxxxxxxx,0,0,0,0,0,0
-tgw-1bd1f8b3-8cef-4965-b2fd-e7029d0c0636-vpc-0c01527cee4d50478,tgw-01ccbf16de70f1c91,vpc,vpc-xxxxxxxxxxxxxxxxxx,0,0,0,0,0,0
-tgw-1bd1f8b3-8cef-4965-b2fd-e7029d0c0636-vpc-003bdaf84d7ba8279,tgw-01ccbf16de70f1c91,vpc,vpc-xxxxxxxxxxxxxxxxxx,0,0,0,0,0,0
-tgw-1bd1f8b3-8cef-4965-b2fd-e7029d0c0636-vpc-07bb9a6c5400fc3c6,tgw-01ccbf16de70f1c91,vpc,vpc-xxxxxxxxxxxxxxxxxx,0,0,0,0,0,0
-tgw-1bd1f8b3-8cef-4965-b2fd-e7029d0c0636-vpc-0645adec04d4f3e6b,tgw-01ccbf16de70f1c91,vpc,vpc-xxxxxxxxxxxxxxxxxx,0,0,0,0,0,0
-tgw-sdwan01-vpc,tgw-0371fe29c71bf9bcf,vpc,vpc-xxxxxxxxxxxxxxxxxx,0,0,0,0,0,0
-sdwan-dx-vpc-attmnt,tgw-06fd7ae0ea0fa9385,vpc,vpc-xxxxxxxxxxxxxxxxxx,0,0,0,0,0,0
-tgw-attach-030c581923463d819,tgw-0371fe29c71bf9bcf,direct-connect-gateway,xxxxxxxxxxxxxxxxxx,0,0,0,0,0,0
-tgw-attach-0010552c8ee467d8a,tgw-06fd7ae0ea0fa9385,direct-connect-gateway,xxxxxxxxxxxxxxxxxx,0,0,0,0,0,0
+tgw-attach-02150309d0995e0b1,tgw-0db13c324b56900bf,vpc,vpc-03a27f4460cba9b6f,43754.94,234757.78,189.14,233.07,0.0,0.0
+tgw-attach-01ba78c5012931079,tgw-0db13c324b56900bf,vpn,vpn-09521758e852667f8,83182.21,22414.27,99.36,86.72,0.0,0.06
+tgw-attach-0fa54675c4db15195,tgw-0db13c324b56900bf,vpn,vpn-02c6f900e9ec98427,124155.49,20273.53,118.92,95.94,0.0,0.0

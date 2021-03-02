@@ -186,6 +186,8 @@ def get_metrics(service, resource_id):
     datapoints = {}
     now = datetime.datetime.now()
     for metric in metrics['metrics_to_be_collected'][service]:
+        #If the wanted statistics (Sum, Minimum, Maximum) is specified per service,
+        #leave it as is. Otherwise use the global "statistics" variable configured
         if 'statistics' in metric.keys():
             statistics = metric['statistics']
         else:
@@ -245,6 +247,8 @@ with open(filename, 'w') as csvfile:
         quotechar='"',
         quoting=csv.QUOTE_MINIMAL)
 
+    csvwriter.writerow(["{stats} metrics for the past {hrs} hour(s) with {sec} second(s) "\
+        "interval".format(stats=metrics['statistics'], serv=service, hrs=metrics['hours'], sec=metrics['period'])])
     # write the headers to csv
     csv_headers = csvconfig.make_csv_header(service)
     csvwriter.writerow(csv_headers)
