@@ -85,13 +85,13 @@ if args.region is None and args.profile is None:
         period....".format(serv=service, hrs=metrics['hours'], sec=metrics['period']))
     print("No region and credential profile passed, using default \
         region \"ap-southeast-1\" and using default configured AWS credentials to run script")
-if args.region:
+if args.region and args.profile is None:
     region = args.region
     print("Fetching {serv} metrics for the past {hrs}hour(s) with {sec}second(s) \
         period....".format(serv=service, hrs=metrics['hours'], sec=metrics['period']))
     print("Region argument passed. Using region \"{reg}\" and using the \
         default AWS Credentials to run script".format(reg=region))
-if args.profile:
+if args.profile and args.region is None:
     profile = args.profile
     print("Fetching {serv} metrics for the past {hrs}hour(s) with {sec}second(s)\
         period....".format(serv=service, hrs=metrics['hours'], sec=metrics['period']))
@@ -155,20 +155,24 @@ def get_all_resources(resource_type):
         return result['items']
     elif resource_type == 'tgw':
         tgw_list = []
-        result=tgw.describe_transit_gateways()
-        #print (result)
-        for gateway in result['TransitGateways']:
+        #Find all TGW's in the region regardless of state
+        tgw_result=tgw.describe_transit_gateways()
+        #print (tgw_result)
+        #Return a list of avaialble TGW's based on their states
+        for gateway in tgw_result['TransitGateways']:
             if gateway['State'] == 'available':
                 tgw_list.append(gateway)
         return tgw_list
     elif resource_type == 'tgwattachment':
         attachment_list = []
+        #Find all Attachments in the region regardless of state
         result=tgw.describe_transit_gateway_attachments()
         #print (result)
+        #Return a list of available attachments based on their states
         for attachment in result['TransitGatewayAttachments']:
             if attachment['State'] == 'available':
                 attachment_list.append(attachment)
-        #print (attachment_list)
+        #print(attachment_list)
         return attachment_list
 
         
@@ -180,6 +184,7 @@ for the service script is executed against
 
 
 def get_metrics(service, resource_id):
+    #Note the resource_id can be a string or a list (specifically for TGW attachments)
     datapoints = {}
     now = datetime.datetime.now()
     for metric in metrics['metrics_to_be_collected'][service]:
@@ -187,13 +192,30 @@ def get_metrics(service, resource_id):
             statistics = metric['statistics']
         else:
             statistics = metrics['statistics']
+#If we're collecting tgw attachment stats, metric dimensions have to include
+#both the TransitGateway dimension AND TransitGatewayAttachment
+        if service == 'tgwattachment':
+            metric_dimensions=[
+            {
+                'Name': metric['dimension_name'],
+                'Value': resource_id[0]
+            },
+            {
+                'Name': 'TransitGateway',
+                'Value': resource_id[1]
+            }
+            ]
+        else:
+            metric_dimensions=[
+            {
+                'Name': metric['dimension_name'],
+                'Value': resource_id
+            }
+            ]
         result = cw.get_metric_statistics(
             Namespace=metric['namespace'],
             MetricName=metric['name'],
-            Dimensions=[{
-                'Name': metric['dimension_name'],
-                'Value': resource_id
-            }],
+            Dimensions=metric_dimensions,
             Unit=metric['unit'],
             Period=metrics['period'],
             StartTime=now - datetime.timedelta(hours=metrics['hours']),
@@ -211,8 +233,10 @@ def get_metrics(service, resource_id):
 
 # get all resources and return a list
 resources = get_all_resources(service)
+print ('Finished searching for the',service,'resources')
 
 filename = service+".csv"
+#filename = service+datetime.datetime.now().strftime("-%b-%d-%H-%M-%S")+".csv"
 with open(filename, 'w') as csvfile:
     # initialize csv writer
     csvwriter = csv.writer(
@@ -247,9 +271,11 @@ with open(filename, 'w') as csvfile:
             tgw_arn_split = resource['TransitGatewayArn'].split("transit-gateway/")
             resource_id = tgw_arn_split[1]
         elif service == 'tgwattachment':
-            #resource_id = resource.id
-            resource_id = resource['TransitGatewayAttachmentId']
+            #If statsitcs for TGW Attachments is requested,
+            #create a list to preserve both the tgw ID and attachment ID
+            resource_id = [resource['TransitGatewayAttachmentId'], resource['TransitGatewayId']]
 
+        print("Collecting Cloudwatch statsitcs for resource",resource_id)
         metrics_info = get_metrics(service, resource_id)
         if service == 'ec2' or service =='tgwattachment':
             csvconfig.write_to_csv(service, csvwriter, resource, metrics_info)

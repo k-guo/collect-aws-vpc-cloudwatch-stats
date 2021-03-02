@@ -4,9 +4,9 @@
 #If hours specified below is greater than 63 days ago - Use a multiple of 3600 seconds (1 hour) else no datapoint will be returned by the API
 #More information on the above can be seen here: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudwatch.html#CloudWatch.Client.get_metric_data
 
-period: 300 #Specify Period in Seconds. Minimum is 60seconds except for high resolution metrics which supports 1seconds
-hours: 24 #Specify the length of metrics you want to fetch in hours
-statistics: "Average"
+period: 3600 #Specify Period in Seconds. Minimum is 60seconds except for high resolution metrics which supports 1seconds
+hours: 720 #Specify the length of metrics you want to fetch in hours
+statistics: "Maximum"
 
 metrics_to_be_collected:
   ec2:
@@ -427,63 +427,62 @@ metrics_to_be_collected:
   tgw:
     - "name": "BytesIn"
       "namespace": "AWS/TransitGateway"
-      "unit": "Bytes"
+      "unit": "None"
       "dimension_name": "TransitGateway"
     
     - "name": "BytesOut"
       "namespace": "AWS/TransitGateway"
-      "unit": "Bytes"
+      "unit": "None"
       "dimension_name": "TransitGateway"
     
     - "name": "PacketsIn"
       "namespace": "AWS/TransitGateway"
-      "unit": "Count"
+      "unit": "None"
       "dimension_name": "TransitGateway"
 
     - "name": "PacketsOut"
       "namespace": "AWS/TransitGateway"
-      "unit": "Count"
+      "unit": "None"
       "dimension_name": "TransitGateway"
 
     - "name": "PacketDropCountBlackhole"
       "namespace": "AWS/TransitGateway"
-      "unit": "Count"
+      "unit": "None"
       "dimension_name": "TransitGateway"
 
     - "name": "PacketDropCountNoRoute"
       "namespace": "AWS/TransitGateway"
-      "unit": "Count"
+      "unit": "None"
       "dimension_name": "TransitGateway"
-
   tgwattachment:
     - "name": "BytesIn"
       "namespace": "AWS/TransitGateway"
-      "unit": "Bytes"
+      "unit": "None"
       "dimension_name": "TransitGatewayAttachment"
     
     - "name": "BytesOut"
       "namespace": "AWS/TransitGateway"
-      "unit": "Bytes"
+      "unit": "None"
       "dimension_name": "TransitGatewayAttachment"
     
     - "name": "PacketsIn"
       "namespace": "AWS/TransitGateway"
-      "unit": "Count"
+      "unit": "None"
       "dimension_name": "TransitGatewayAttachment"
 
     - "name": "PacketsOut"
       "namespace": "AWS/TransitGateway"
-      "unit": "Count"
+      "unit": "None"
       "dimension_name": "TransitGatewayAttachment"
 
     - "name": "PacketDropCountBlackhole"
       "namespace": "AWS/TransitGateway"
-      "unit": "Count"
+      "unit": "None"
       "dimension_name": "TransitGatewayAttachment"
 
     - "name": "PacketDropCountNoRoute"
       "namespace": "AWS/TransitGateway"
-      "unit": "Count"
+      "unit": "None"
       "dimension_name": "TransitGatewayAttachment"
     
     
