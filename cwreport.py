@@ -45,14 +45,12 @@ def setup_logging():
             log.setLevel(log_levels[log_level])
         else:
             log.setLevel(log_levels['ERROR'])
-            log.error("The logging_level environment variable is not set to INFO, WARNING, or \
-                    ERROR.  The log level is set to ERROR")
+            log.error("The logging_level environment variable is not set to INFO, WARNING, or "\
+                    "ERROR.  The log level is set to ERROR")
     else:
         log.setLevel(log_levels['ERROR'])
-        log.warning('The logging_level environment variable is not set. The log level is set to \
-                    ERROR')
-        log.info('Logging setup complete - set to \
-            log level ' + str(log.getEffectiveLevel()))
+        log.warning('The logging_level environment variable is not set. The log level is set to ERROR')
+        log.info('Logging setup complete - set to log level ' + str(log.getEffectiveLevel()))
 
 setup_logging()
 
@@ -67,12 +65,12 @@ with open("metrics.yaml", 'r') as f:
 
 # Retrieve argument
 parser = argparse.ArgumentParser()
-parser.add_argument("service", choices=["lambda", "ec2", "rds", "alb", "nlb", "apigateway", "tgw", "tgwattachment"], help="The AWS Service to pull metrics for. Supported \
-         services are lambda, ec2, rds, alb, nlb, apigateway, tgw, and tgwattachment")
-parser.add_argument("-r", "--region", help="The AWS Region to pull \
-    metrics from, the default is ap-southeast-1")
-parser.add_argument("-p", "--profile", help="The credential profile to \
-     use if not using default credentials")
+parser.add_argument("service", choices=["lambda", "ec2", "rds", "alb", "nlb", "apigateway", "tgw", "tgwattachment"], help="The AWS Service to pull metrics for. Supported "\
+         "services are lambda, ec2, rds, alb, nlb, apigateway, tgw, and tgwattachment")
+parser.add_argument("-r", "--region", help="The AWS Region to pull "\
+    "metrics from, the default is ap-southeast-1")
+parser.add_argument("-p", "--profile", help="The credential profile to "\
+     "use if not using default credentials")
 
 args = parser.parse_args()
 
@@ -81,30 +79,30 @@ args = parser.parse_args()
 service = args.service
 
 if args.region is None and args.profile is None:
-    print("Fetching {serv} metrics for the past {hrs}hour(s) with {sec}second(s) \
-        period....".format(serv=service, hrs=metrics['hours'], sec=metrics['period']))
-    print("No region and credential profile passed, using default \
-        region \"ap-southeast-1\" and using default configured AWS credentials to run script")
+    print("Fetching {serv} metrics for the past {hrs}hour(s) with {sec}second(s) "\
+        "period....".format(serv=service, hrs=metrics['hours'], sec=metrics['period']))
+    print("No region and credential profile passed, using default "\
+        "region \"ap-southeast-1\" and using default configured AWS credentials to run script")
 if args.region and args.profile is None:
     region = args.region
-    print("Fetching {serv} metrics for the past {hrs}hour(s) with {sec}second(s) \
-        period....".format(serv=service, hrs=metrics['hours'], sec=metrics['period']))
-    print("Region argument passed. Using region \"{reg}\" and using the \
-        default AWS Credentials to run script".format(reg=region))
+    print("Fetching {serv} metrics for the past {hrs}hour(s) with {sec}second(s) "\
+        "period....".format(serv=service, hrs=metrics['hours'], sec=metrics['period']))
+    print("Region argument passed. Using region \"{reg}\" and using the "\
+        "default AWS Credentials to run script".format(reg=region))
 if args.profile and args.region is None:
     profile = args.profile
-    print("Fetching {serv} metrics for the past {hrs}hour(s) with {sec}second(s)\
-        period....".format(serv=service, hrs=metrics['hours'], sec=metrics['period']))
-    print("Credential profile passed. Using default region ap-southeast-1 and \
-        using profile \"{prof}\" to run script".format(prof=profile))
+    print("Fetching {serv} metrics for the past {hrs}hour(s) with {sec}second(s)"\
+        "period....".format(serv=service, hrs=metrics['hours'], sec=metrics['period']))
+    print("Credential profile passed. Using default region ap-southeast-1 and "\
+        "using profile \"{prof}\" to run script".format(prof=profile))
     use_profile = True
 if args.region and args.profile:
     region = args.region
     profile = args.profile
-    print("Fetching {serv} metrics for the past {hrs}hour(s) with {sec}second(s) \
-        period....".format(serv=service, hrs=metrics['hours'], sec=metrics['period']))
-    print("Credential profile and region passed. Using region \"{reg}\" and \
-        using profile \"{prof}\" to run script".format(reg=region, prof=profile))
+    print("Fetching {serv} metrics for the past {hrs}hour(s) with {sec}second(s) "\
+        "period....".format(serv=service, hrs=metrics['hours'], sec=metrics['period']))
+    print("Credential profile and region passed. Using region \"{reg}\" and "\
+        "using profile \"{prof}\" to run script".format(reg=region, prof=profile))
     use_profile = True
 
 # Create boto3 session
@@ -192,8 +190,10 @@ def get_metrics(service, resource_id):
             statistics = metric['statistics']
         else:
             statistics = metrics['statistics']
-#If we're collecting tgw attachment stats, metric dimensions have to include
-#both the TransitGateway dimension AND TransitGatewayAttachment
+            '''
+            If we're collecting tgw attachment stats, metric dimensions have to include
+            both the TransitGateway dimension AND TransitGatewayAttachment
+            '''
         if service == 'tgwattachment':
             metric_dimensions=[
             {

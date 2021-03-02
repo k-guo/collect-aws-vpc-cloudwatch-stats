@@ -1,0 +1,27 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid":: "CloudwatchReadOnlyCopy"
+            "Action": [
+                "cloudwatch:Describe*",
+                "cloudwatch:Get*",
+                "cloudwatch:List*",
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Sid": "TGWCloudwatchScript",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeVpcs",
+                "ec2:DescribeTransitGatewayVpcAttachments",
+                "ec2:DescribeTransitGatewayAttachments",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeRouteTables"
+            ],
+            "Resource": "*"
+
+    ]
+}
