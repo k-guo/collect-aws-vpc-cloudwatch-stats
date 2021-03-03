@@ -1,11 +1,4 @@
 """
-AWS Disclaimer.
-
-(c) 2020 Amazon Web Services, Inc. or its affiliates. All Rights Reserved.
-This AWS Content is provided subject to the terms of the AWS Customer
-Agreement available at https://aws.amazon.com/agreement/ or other written
-agreement between Customer and Amazon Web Services, Inc.
-
 This script is a module called by cwreport.py, it creates the csv file
 """
 import yaml
