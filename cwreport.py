@@ -236,8 +236,8 @@ def get_metrics(service, resource_id):
 resources = get_all_resources(service)
 print ('Finished searching for the',service,'resources')
 
-filename = service+".csv"
-#filename = service+datetime.datetime.now().strftime("-%b-%d-%H-%M-%S")+".csv"
+#filename = service+".csv"
+filename = service+datetime.datetime.now().strftime("-%b-%d-%H-%M-%S")+".csv"
 with open(filename, 'w') as csvfile:
     # initialize csv writer
     csvwriter = csv.writer(
