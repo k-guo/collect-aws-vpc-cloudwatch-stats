@@ -1,10 +1,4 @@
 """
-AWS Disclaimer.
-
-(c) 2020 Amazon Web Services, Inc. or its affiliates. All Rights Reserved.
-This AWS Content is provided subject to the terms of the AWS Customer
-Agreement available at https://aws.amazon.com/agreement/ or other written
-agreement between Customer and Amazon Web Services, Inc.
 
 This Python Script fetches Amazon CloudWatch metrics for a given AWS service in a given
 region and generates a CSV report for the metrics information
@@ -155,7 +149,7 @@ def get_all_resources(resource_type):
         tgw_list = []
         #Find all TGW's in the region regardless of state
         tgw_result=tgw.describe_transit_gateways()
-        #print (tgw_result)
+        #print (tgw.describe_transit_gateways()) #debug to print the list of TGW's
         #Return a list of avaialble TGW's based on their states
         for gateway in tgw_result['TransitGateways']:
             if gateway['State'] == 'available':
@@ -164,13 +158,13 @@ def get_all_resources(resource_type):
     elif resource_type == 'tgwattachment':
         attachment_list = []
         #Find all Attachments in the region regardless of state
-        result=tgw.describe_transit_gateway_attachments()
-        #print (result)
+        attachment_result=tgwattachment.describe_transit_gateway_attachments()
+        #print(tgwattachment.describe_transit_gateway_attachments()) #debug to print the list of TGW Attachments
         #Return a list of available attachments based on their states
-        for attachment in result['TransitGatewayAttachments']:
+        for attachment in attachment_result['TransitGatewayAttachments']:
             if attachment['State'] == 'available':
                 attachment_list.append(attachment)
-        #print(attachment_list)
+        #print(attachment_list) #debug to print the final list of available Attachments
         return attachment_list
 
         
@@ -185,6 +179,7 @@ def get_metrics(service, resource_id):
     #Note the resource_id can be a string or a list (specifically for TGW attachments)
     datapoints = {}
     now = datetime.datetime.now()
+    #print('Inside get_metrics(). The resources are: ',resource_id) #debug: print the resources to collect metrics
     for metric in metrics['metrics_to_be_collected'][service]:
         #If the wanted statistics (Sum, Minimum, Maximum) is specified per service,
         #leave it as is. Otherwise use the global "statistics" variable configured
@@ -214,6 +209,7 @@ def get_metrics(service, resource_id):
                 'Value': resource_id
             }
             ]
+        ### Here's the main Cloudwatch API call that collects the metrics for each metric type (i.e. BytesIn, PacketsOut)
         result = cw.get_metric_statistics(
             Namespace=metric['namespace'],
             MetricName=metric['name'],
@@ -224,13 +220,16 @@ def get_metrics(service, resource_id):
             EndTime=now,
             Statistics=[statistics]
         )
+        #Debug: dump the list of metrics for each type such as BytesIn, per resource
+        print(result)
         actual_datapoint = []
         for datapoint in result['Datapoints']:
             actual_datapoint.append(float(datapoint[statistics]))
         if len(actual_datapoint) == 0:
             actual_datapoint.append(0)
         datapoints[metric['name']] = actual_datapoint
-
+    #Debug: dump the datapoints fromt the Cloudwatch API call
+    #print(datapoints)
     return datapoints
 
 # get all resources and return a list
@@ -281,6 +280,9 @@ with open(filename, 'w') as csvfile:
 
         print("Collecting Cloudwatch statsitcs for resource",resource_id)
         metrics_info = get_metrics(service, resource_id)
+        #Debug: dump the array of metrics collected for each metric type
+        print("Finished collecting metrics for",resource_id)
+        #print(metrics_info)
         if service == 'ec2' or service =='tgwattachment':
             csvconfig.write_to_csv(service, csvwriter, resource, metrics_info)
         else:

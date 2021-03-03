@@ -4,8 +4,11 @@
 #If hours specified below is greater than 63 days ago - Use a multiple of 3600 seconds (1 hour) else no datapoint will be returned by the API
 #More information on the above can be seen here: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudwatch.html#CloudWatch.Client.get_metric_data
 
-period: 3600 #Specify Period in Seconds. Minimum is 60seconds except for high resolution metrics which supports 1seconds
-hours: 720 #Specify the length of metrics you want to fetch in hours
+period: 600 #Specify Period in Seconds. Minimum is 60seconds except for high resolution metrics which supports 1seconds
+hours: 168 #Specify the length of metrics you want to fetch in hours
+#The 'statastics' value applies to the service metrics below if they don't have one - which is used to calculate the
+#min/max/average etc per period. It is also used in csvconfig.py to find the requested statistic for the entire length of metrics
+#The supported statistics are 'SampleCount'|'Average'|'Sum'|'Minimum'|'Maximum'
 statistics: "Maximum"
 
 metrics_to_be_collected:

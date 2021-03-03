@@ -15,6 +15,27 @@ import numpy
 with open("metrics.yaml", 'r') as f:
     metrics = yaml.load(f, Loader=yaml.FullLoader)
 
+# Function to determine the statistic type the user is trying to calculate from the statistic varible in metrics.yaml
+# Supported statistics are average, min, max, sum. It is called in write_to_csv()
+def requested_overall_statistic(data):
+    user_request = metrics['statistics']
+    #Check for user requested statistic type from metrics.yaml
+    if user_request.lower() == 'maximum':
+        method_to_call = getattr(numpy, 'max')
+        output = method_to_call(data)
+    elif user_request.lower() == 'minimum':
+        method_to_call = getattr(numpy, 'min')
+        output = method_to_call(data)
+    elif user_request.lower() == 'sum':
+        method_to_call = getattr(numpy, 'sum')
+        output = method_to_call(data)
+    elif user_request.lower() == 'average':
+        method_to_call = getattr(numpy, 'average')
+        output = method_to_call(data)
+    else:
+        method_to_call = getattr(numpy, 'size')
+        output = method_to_call(data)
+    return output
 
 # Construct csv headers and return
 def make_csv_header(service):
@@ -78,15 +99,15 @@ def write_to_csv(service, csvwriter, resource, metrics_info):
             resource.virtualization_type,
             resource.architecture,
             resource.ebs_optimized,
-            numpy.round(numpy.average(metrics_info['CPUUtilization']), 2),
-            numpy.round(numpy.average(metrics_info['DiskReadOps']), 2),
-            numpy.round(numpy.average(metrics_info['DiskWriteOps']), 2),
-            numpy.round(numpy.average(metrics_info['DiskReadBytes']), 2),
-            numpy.round(numpy.average(metrics_info['DiskWriteBytes']), 2),
-            numpy.round(numpy.average(metrics_info['NetworkIn']), 2),
-            numpy.round(numpy.average(metrics_info['NetworkOut']), 2),
-            numpy.round(numpy.average(metrics_info['NetworkPacketsIn']), 2),
-            numpy.round(numpy.average(metrics_info['NetworkPacketsOut']), 2)
+            numpy.round(requested_overall_statistic(metrics_info['CPUUtilization']), 2),
+            numpy.round(requested_overall_statistic(metrics_info['DiskReadOps']), 2),
+            numpy.round(requested_overall_statistic(metrics_info['DiskWriteOps']), 2),
+            numpy.round(requested_overall_statistic(metrics_info['DiskReadBytes']), 2),
+            numpy.round(requested_overall_statistic(metrics_info['DiskWriteBytes']), 2),
+            numpy.round(requested_overall_statistic(metrics_info['NetworkIn']), 2),
+            numpy.round(requested_overall_statistic(metrics_info['NetworkOut']), 2),
+            numpy.round(requested_overall_statistic(metrics_info['NetworkPacketsIn']), 2),
+            numpy.round(requested_overall_statistic(metrics_info['NetworkPacketsOut']), 2)
         ])
     elif service == 'tgwattachment':
         # get attachment name
@@ -101,15 +122,15 @@ def write_to_csv(service, csvwriter, resource, metrics_info):
             resource['TransitGatewayId'],
             resource['ResourceType'],
             resource['ResourceId'],
-            numpy.round(numpy.average(metrics_info['BytesIn']), 2),
-            numpy.round(numpy.average(metrics_info['BytesOut']), 2),
-            numpy.round(numpy.average(metrics_info['PacketsIn']), 2),
-            numpy.round(numpy.average(metrics_info['PacketsOut']), 2),
-            numpy.round(numpy.average(metrics_info['PacketDropCountBlackhole']), 2),
-            numpy.round(numpy.average(metrics_info['PacketDropCountNoRoute']), 2)
+            numpy.round(requested_overall_statistic(metrics_info['BytesIn']), 2),
+            numpy.round(requested_overall_statistic(metrics_info['BytesOut']), 2),
+            numpy.round(requested_overall_statistic(metrics_info['PacketsIn']), 2),
+            numpy.round(requested_overall_statistic(metrics_info['PacketsOut']), 2),
+            numpy.round(requested_overall_statistic(metrics_info['PacketDropCountBlackhole']), 2),
+            numpy.round(requested_overall_statistic(metrics_info['PacketDropCountNoRoute']), 2)
         ])
     else:
         row_data = [resource]
         for metric in metrics['metrics_to_be_collected'][service]:
-            row_data.append(numpy.round(numpy.average(metrics_info[metric['name']]), 2))
+            row_data.append(numpy.round(requested_overall_statistic(metrics_info[metric['name']]), 2))
         csvwriter.writerow(row_data)

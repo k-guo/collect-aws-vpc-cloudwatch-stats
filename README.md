@@ -10,7 +10,7 @@ aws configure
 
 ### Script Configuration:
 
-Script configuration can be found in metrics.yaml.
+Script configuration (i.e. Min/Max/Average, etc) can be found in metrics.yaml.
 
 1. period - This is the period of the metrics to fetch. The default period is 5 minutes (300 seconds). This can be modified but note the below API limitations when modifying this value
 
@@ -20,7 +20,7 @@ Script configuration can be found in metrics.yaml.
 
 2. hours - This is the amount of hours prior worth of metrics you want to fetch. The default is 1hour, you can modify this to signify days but it must be specified in hours. For example 48 signifies 2 days
 
-3. statistics - This is the global statistics that will be used when fetching metrics that do not have specific statistics assigned. For any metric that has statistics configured, this configuration will not be used.
+3. statistics - This is the global statistics that will be used when fetching metrics that do not have specific statistics assigned. For any metric that has statistics configured, this configuration will not be used. It is also used in csvconfig.py to find the requested statistic for the entire length of metrics.
 
 ### Script Usage
 

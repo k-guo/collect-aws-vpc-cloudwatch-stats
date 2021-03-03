@@ -1,5 +1,11 @@
-Maximum metrics for the past 720 hour(s) with 3600 second(s) interval
+Maximum metrics for the past 672 hour(s) with 3600 second(s) interval,,,,,,,,,
 Attachment ID,TransitGateway ID,Resource Type,Resource ID,BytesIn,BytesOut,PacketsIn (Count),PacketsOut (Count),PacketDropCountBlackhole (Count),PacketDropCountNoRoute (Count)
-tgw-attach-02150309d0995e0b1,tgw-0db13c324b56900bf,vpc,vpc-03a27f4460cba9b6f,43754.94,234757.78,189.14,233.07,0.0,0.0
-tgw-attach-01ba78c5012931079,tgw-0db13c324b56900bf,vpn,vpn-09521758e852667f8,83182.21,22414.27,99.36,86.72,0.0,0.06
-tgw-attach-0fa54675c4db15195,tgw-0db13c324b56900bf,vpn,vpn-02c6f900e9ec98427,124155.49,20273.53,118.92,95.94,0.0,0.0
+tgw-1bd1f8b3-8cef-4965-b2fd-e7029d0c0636-vpc-0051e8c97ac896974,tgw-01ccbf16xxxxxxx,vpc,vpc-0051e8c97axxxxxxx,701642,69662293,13338,50145,0,0
+tgw-1bd1f8b3-8cef-4965-b2fd-e7029d0c0636-vpc-0c01527cee4d50478,tgw-01ccbf16xxxxxxx,vpc,vpc-0c01527ceexxxxxxx,0,0,0,0,0,0
+tgw-1bd1f8b3-8cef-4965-b2fd-e7029d0c0636-vpc-003bdaf84d7ba8279,tgw-01ccbf16xxxxxxx,vpc,vpc-003bdaf84dxxxxxxx,0,0,0,0,0,0
+tgw-1bd1f8b3-8cef-4965-b2fd-e7029d0c0636-vpc-07bb9a6c5400fc3c6,tgw-01ccbf16xxxxxxx,vpc,vpc-07bb9a6c54xxxxxxx,727037,53509346,13703,39295,0,0
+tgw-1bd1f8b3-8cef-4965-b2fd-e7029d0c0636-vpc-0645adec04d4f3e6b,tgw-01ccbf16xxxxxxx,vpc,vpc-0645adec04xxxxxxx,0,0,0,0,0,0
+tgw-xxxxxx1-vpc,tgw-01ccbf16xxxxxxx,vpc,vpc-0576359771xxxxxxx,36660,24914,300,130,0,0
+sxxxxxx-dx-vpc-attmnt,tgw-06fd7ae0eaxxxxxx,vpc,vpc-00b07af178xxxxxxx,31322,32748,240,246,0,12
+tgw-attach-030c5819234xxxxxxx,tgw-0371fe29c71xxxxxx,direct-connect-gateway,a6d232d9-db5c-4d12-8110-4c0a0xxxxxxx,24914,36660,158,300,0,0
+tgw-attach-0010552c8exxxxxx,tgw-06fd7ae0ea0xxxxxx,direct-connect-gateway,13886cdf-ab2a-411b-8086-6b0e33xxxxxxx,30000,27732,240,219,0,120
