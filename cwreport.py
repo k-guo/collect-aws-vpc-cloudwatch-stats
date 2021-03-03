@@ -221,7 +221,7 @@ def get_metrics(service, resource_id):
             Statistics=[statistics]
         )
         #Debug: dump the list of metrics for each type such as BytesIn, per resource
-        print(result)
+        #print(result)
         actual_datapoint = []
         for datapoint in result['Datapoints']:
             actual_datapoint.append(float(datapoint[statistics]))
